@@ -51,6 +51,10 @@ public class ClientController implements Initializable {
             connect();
         }
         try {
+            if (fieldLogin.getText().isEmpty() || fieldPass.getText().isEmpty()){
+                showAlert("Введите логин и пароль");
+                return;
+            }
             output.writeUTF("/auth " + fieldLogin.getText() + " " + fieldPass.getText());
             fieldLogin.clear();
             fieldPass.clear();
@@ -65,7 +69,6 @@ public class ClientController implements Initializable {
         String s = fieldMessage.getText();
         try {
             output.writeUTF(s);
-            System.out.println("Клиент отправляет " + s);
             fieldMessage.clear();
             fieldMessage.requestFocus();
         } catch (IOException e) {
@@ -90,8 +93,7 @@ public class ClientController implements Initializable {
                 try {
                     while (true) {
                         s = input.readUTF();
-                        System.out.println("Клиент принимает " + s);
-                        if (s.equals("/authok")) {
+                        if (s.startsWith("/authok")) {
                             setAuth(true);
                             break;
                         }
@@ -99,7 +101,6 @@ public class ClientController implements Initializable {
                     }
                     while (true) {
                         s = input.readUTF();
-                        System.out.println("Клиент принимает " + s);
                         if (s.startsWith("/")) {
                             if (s.startsWith("/clientslist ")) {
                                 String[] data = s.split("\\s");
