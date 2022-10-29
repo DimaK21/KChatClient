@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox alignment="CENTER" prefHeight="500.0" prefWidth="400.0" spacing="20.0" stylesheets="@client.css" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ru.kryu.kchat.kchatclient.ClientController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+   <children>
+      <Label fx:id="labelTop" text="KChat" />
+      <HBox fx:id="boxAuth" spacing="5.0">
+         <children>
+            <TextField fx:id="fieldLogin" promptText="Login" HBox.hgrow="ALWAYS" />
+            <PasswordField fx:id="fieldPass" onAction="#authClick" promptText="Password" />
+            <Button fx:id="buttonAuth" mnemonicParsing="false" onAction="#authClick" text="OK" />
+         </children>
+      </HBox>
+      <SplitPane dividerPositions="0.7" VBox.vgrow="ALWAYS">
+        <items>
+          <TextArea fx:id="textChat" editable="false" wrapText="true" />
+          <ListView fx:id="listMembers" onMouseClicked="#sendPrivateMessage" />
+        </items>
+      </SplitPane>
+      <HBox fx:id="boxMessage" spacing="5.0">
+         <children>
+            <TextField fx:id="fieldMessage" onAction="#messageClick" promptText="Write message" HBox.hgrow="ALWAYS" />
+            <Button fx:id="buttonMessage" mnemonicParsing="false" onAction="#messageClick" text="Send" />
+         </children>
+      </HBox>
+   </children>
+
+
+</VBox>
