@@ -44,6 +44,7 @@ public class ClientController implements Initializable {
     private DataOutputStream output;
     private boolean isAuth;
     private ObservableList<String> clientsList;
+    private String nick;
 
     @FXML
     private void authClick() {
@@ -95,6 +96,7 @@ public class ClientController implements Initializable {
                         s = input.readUTF();
                         if (s.startsWith("/authok")) {
                             setAuth(true);
+                            nick = s.substring(8);
                             break;
                         }
                         textChat.appendText(s + "\n");
@@ -107,6 +109,9 @@ public class ClientController implements Initializable {
                                 Platform.runLater(() -> {
                                     clientsList.clear();
                                     for (int i = 1; i < data.length; i++) {
+                                        if (data[i].equals(nick)){
+                                            data[i] = data[i] + " - you";
+                                        }
                                         clientsList.addAll(data[i]);
                                     }
                                 });
@@ -119,6 +124,7 @@ public class ClientController implements Initializable {
                     if (!s.equals("/end")) showAlert("Соединение разорвано");
                 } finally {
                     setAuth(false);
+                    nick = null;
                     try {
                         socket.close();
                     } catch (IOException e) {
@@ -164,7 +170,10 @@ public class ClientController implements Initializable {
     public void sendPrivateMessage(MouseEvent mouseEvent) {
         if (mouseEvent.getClickCount() == 2) {
             String string = listMembers.getSelectionModel().getSelectedItem().toString();
-            fieldMessage.setText("/w " + string + " ");
+            if (string.endsWith("- you")){
+                return;
+            }
+            fieldMessage.setText("/w " + string + "");
             fieldMessage.requestFocus();
             fieldMessage.selectEnd();
         }
