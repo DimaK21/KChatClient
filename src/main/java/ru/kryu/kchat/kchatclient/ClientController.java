@@ -173,7 +173,7 @@ public class ClientController implements Initializable {
             if (string.endsWith("- you")){
                 return;
             }
-            fieldMessage.setText("/w " + string + "");
+            fieldMessage.setText("/w " + string + " ");
             fieldMessage.requestFocus();
             fieldMessage.selectEnd();
         }
